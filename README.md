@@ -57,30 +57,32 @@ LogAnalyzer/
 ## Architecture
 
 ```
-┌─────────────┐     ┌────────────┐     ┌──────────────────┐
+┌─────────────┐     ┌────────────┐      ┌──────────────────┐
 │  Log File   │────▶│ LogParser  │────▶│ vector<LogEntry> │
-└─────────────┘     └────────────┘     └────────┬─────────┘
+└─────────────┘     └────────────┘      └────────┬─────────┘
                                                  │
-                                    ┌────────────▼──────────────┐
-                                    │      AnomalyDetector      │
-                                    │  ┌──────────────────────┐ │
-                                    │  │  ErrorRateDetector   │ │  ← Sliding Window
-                                    │  │  KeywordDetector     │ │  ← Hash Map
-                                    │  │  SourceBurstDetector │ │  ← Frequency
-                                    │  └──────────────────────┘ │
-                                    └────────────┬──────────────┘
-                                                 │
-                                    ┌────────────▼──────────────┐
-                                    │     ReportGenerator       │
-                                    │  Console Summary          │
-                                    │  reports/report.txt       │
-                                    └───────────────────────────┘
+                                                 ▼
+                                   ┌───────────────────────────┐
+                                   │      AnomalyDetector      │
+                                   │  ┌──────────────────────┐ │
+                                   │  │  ErrorRateDetector   │ │  ← Sliding Window
+                                   │  │  KeywordDetector     │ │  ← Hash Map
+                                   │  │  SourceBurstDetector │ │  ← Frequency
+                                   │  └──────────────────────┘ │
+                                   └────────────┬──────────────┘
+                                                │
+                                                ▼
+                                   ┌───────────────────────────┐
+                                   │     ReportGenerator       │
+                                   │  Console Summary          │
+                                   │  reports/report.txt       │
+                                   └───────────────────────────┘
 
 Watch Mode:
-┌─────────────┐  file changed   ┌──────────────────────────┐
-│ FileWatcher │────────────────▶│  Re-run entire pipeline  │
-│ (thread)    │  stat() polling │                          │
-└─────────────┘                 └──────────────────────────┘
+┌─────────────┐  file changed    ┌──────────────────────────┐
+│ FileWatcher │────────────────▶ │  Re-run entire pipeline  │
+│ (thread)    │  stat() polling  │                          │
+└─────────────┘                  └──────────────────────────┘
 ```
 
 ---
@@ -241,7 +243,7 @@ Detects if a single source module is generating a disproportionate share of all 
 [AnomalyDetector] Running: SourceBurstDetector
 
 ╔══════════════════════════════════════╗
-║       LOG ANALYSIS SUMMARY          ║
+║       LOG ANALYSIS SUMMARY           ║
 ╚══════════════════════════════════════╝
   Total entries analyzed : 30
   Anomalies detected     : 3
