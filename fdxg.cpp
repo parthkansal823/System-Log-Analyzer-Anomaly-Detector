@@ -7,32 +7,12 @@
 #include <functional>
 #include <iostream>
 
-// ============================================================
-// LEARN: Strategy Design Pattern
-//
-// Problem: We want MULTIPLE detection algorithms (frequency-based,
-//          keyword-based, burst-based) but we don't want to rewrite
-//          AnomalyDetector every time we add a new one.
-//
-// Solution: Define a common INTERFACE (abstract base class).
-//           Each algorithm is a separate class that implements it.
-//           AnomalyDetector holds a LIST of strategies and runs all of them.
-//
-// Benefit: Adding a new algorithm = add a new class. Nothing else changes.
-//          This is the Open/Closed Principle: open for extension, closed for modification.
-// ============================================================
-
 struct Anomaly {
     std::string type;       // what kind of anomaly
     std::string detail;     // human-readable description
     int         severity;   // 1 (low) to 3 (critical)
 };
 
-// ============================================================
-// LEARN: Abstract Base Class (Interface in C++)
-// Pure virtual function (= 0) forces subclasses to implement it.
-// Cannot instantiate IDetectionStrategy directly.
-// ============================================================
 class IDetectionStrategy {
 public:
     virtual ~IDetectionStrategy() = default;
