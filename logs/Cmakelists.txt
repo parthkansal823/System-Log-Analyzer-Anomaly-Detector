@@ -1,0 +1,32 @@
+cmake_minimum_required(VERSION 3.14)
+project(LogAnalyzer VERSION 1.0 LANGUAGES CXX)
+
+# ============================================================
+# LEARN: CMake
+# CMake is a build system generator. Instead of writing
+# platform-specific Makefiles, you write CMakeLists.txt
+# and CMake generates the right build files for your OS.
+#
+# C++17 required for std::filesystem
+# ============================================================
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Define the executable and its source files
+add_executable(LogAnalyzer
+    src/main.cpp
+)
+
+# Include headers from src/
+target_include_directories(LogAnalyzer PRIVATE src/)
+
+# Link filesystem library (needed on some compilers)
+target_link_libraries(LogAnalyzer
+    $<$<CXX_COMPILER_ID:GNU>:stdc++fs>
+)
+
+# Enable warnings — good coding practice!
+target_compile_options(LogAnalyzer PRIVATE
+    -Wall -Wextra -Wpedantic
+)
